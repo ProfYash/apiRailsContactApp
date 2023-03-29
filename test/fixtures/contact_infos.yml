@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  category: MyString
+  number: MyString
+  contact: one
+  is_active: false
+
+two:
+  category: MyString
+  number: MyString
+  contact: two
+  is_active: false

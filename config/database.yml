@@ -1,0 +1,23 @@
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+
+development:
+  <<: *default
+  database: railsAPIPractise_development
+  username: postgres
+  password: root
+ 
+test:
+  <<: *default
+  database: railsAPIPractise_test
+  username: postgres
+  password: root
+
+production:
+  <<: *default
+  database: railsAPIPractise_production
+  username: postgres
+  password: root
