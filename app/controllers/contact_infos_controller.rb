@@ -1,4 +1,5 @@
 class ContactInfosController < ApplicationController
+  before_action :check_user
   before_action :set_user
   before_action :set_contact
   before_action :set_contact_info, only: [:show, :update, :destroy]
@@ -62,5 +63,37 @@ class ContactInfosController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def contact_info_params
     params.require(:contact_info).permit(:category, :number, :is_active)
+  end
+
+  def check_user
+    @jwt_payload = getPayload()
+
+    if (@jwt_payload["id"].to_i != params[:user_id].to_i)
+      render json: {
+        status: { code: 400, message: "params user not matching with payload cookie Found" },
+      }, status: :unauthorized
+      return
+    end
+  end
+
+  def getPayload
+    token = cookies["auth"]
+
+    if !token
+      render json: {
+        status: { code: 400, message: "cookies Not Found" },
+      }, status: :unauthorized
+      return
+    end
+    payload = JWT.decode(token, Rails.application.credentials.fetch(:secret_key_base)).first
+
+    if !payload
+      render json: {
+        status: { code: 400, message: "payload Not decodeable" },
+      }, status: :unauthorized
+      return
+    end
+
+    return payload
   end
 end

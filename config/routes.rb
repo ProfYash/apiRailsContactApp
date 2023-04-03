@@ -1,8 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :customers, controllers: {
-                           sessions: "customers/sessions",
-                           registrations: "customers/registrations",
-                         }
+  post "/users/login", to: "users#login"
   resources :users do
     resources :contacts do
       resources :contact_infos
